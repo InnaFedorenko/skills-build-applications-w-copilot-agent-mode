@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiEndpoint } from '../utils/api';
 
 export default function Workouts() {
   const [workouts, setWorkouts] = useState([]);
@@ -8,7 +7,11 @@ export default function Workouts() {
   useEffect(() => {
     async function loadWorkouts() {
       try {
-        const response = await fetch(getApiEndpoint('workouts'));
+        const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+        const apiBaseUrl = codespaceName
+          ? `https://${codespaceName}-8000.app.github.dev`
+          : 'http://localhost:8000';
+        const response = await fetch(`${apiBaseUrl}/api/workouts/`);
         const payload = await response.json();
         setWorkouts(Array.isArray(payload) ? payload : payload.workouts || payload.results || []);
       } catch (error) {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getApiEndpoint } from '../utils/api';
 
 export default function Activities() {
   const [activities, setActivities] = useState([]);
@@ -8,7 +7,11 @@ export default function Activities() {
   useEffect(() => {
     async function loadActivities() {
       try {
-        const response = await fetch(getApiEndpoint('activities'));
+        const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
+        const apiBaseUrl = codespaceName
+          ? `https://${codespaceName}-8000.app.github.dev`
+          : 'http://localhost:8000';
+        const response = await fetch(`${apiBaseUrl}/api/activities/`);
         const payload = await response.json();
         setActivities(Array.isArray(payload) ? payload : payload.activities || payload.results || []);
       } catch (error) {
