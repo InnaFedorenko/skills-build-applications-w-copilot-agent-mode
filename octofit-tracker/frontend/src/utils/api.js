@@ -7,3 +7,10 @@ export function getApiBaseUrl() {
 
   return 'http://localhost:8000';
 }
+
+export function getApiEndpoint(resource) {
+  const baseUrl = getApiBaseUrl();
+  const safeResource = resource || '';
+
+  return `${baseUrl}/api/${safeResource}/`;
+}
