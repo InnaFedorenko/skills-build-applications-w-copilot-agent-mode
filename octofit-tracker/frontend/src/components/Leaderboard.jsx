@@ -8,10 +8,11 @@ export default function Leaderboard() {
     async function loadLeaderboard() {
       try {
         const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-        const apiBaseUrl = codespaceName
-          ? `https://${codespaceName}-8000.app.github.dev`
-          : 'http://localhost:8000';
-        const response = await fetch(`${apiBaseUrl}/api/leaderboard/`);
+        const response = await fetch(
+          codespaceName
+            ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`
+            : 'http://localhost:8000/api/leaderboard/'
+        );
         const payload = await response.json();
         setEntries(Array.isArray(payload) ? payload : payload.leaderboard || payload.results || []);
       } catch (error) {

@@ -8,10 +8,11 @@ export default function Workouts() {
     async function loadWorkouts() {
       try {
         const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-        const apiBaseUrl = codespaceName
-          ? `https://${codespaceName}-8000.app.github.dev`
-          : 'http://localhost:8000';
-        const response = await fetch(`${apiBaseUrl}/api/workouts/`);
+        const response = await fetch(
+          codespaceName
+            ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+            : 'http://localhost:8000/api/workouts/'
+        );
         const payload = await response.json();
         setWorkouts(Array.isArray(payload) ? payload : payload.workouts || payload.results || []);
       } catch (error) {

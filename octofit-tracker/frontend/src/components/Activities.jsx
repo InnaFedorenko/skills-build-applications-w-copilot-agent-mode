@@ -8,10 +8,11 @@ export default function Activities() {
     async function loadActivities() {
       try {
         const codespaceName = import.meta.env.VITE_CODESPACE_NAME;
-        const apiBaseUrl = codespaceName
-          ? `https://${codespaceName}-8000.app.github.dev`
-          : 'http://localhost:8000';
-        const response = await fetch(`${apiBaseUrl}/api/activities/`);
+        const response = await fetch(
+          codespaceName
+            ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+            : 'http://localhost:8000/api/activities/'
+        );
         const payload = await response.json();
         setActivities(Array.isArray(payload) ? payload : payload.activities || payload.results || []);
       } catch (error) {
